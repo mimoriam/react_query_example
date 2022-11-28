@@ -10,9 +10,15 @@ async function fetchPosts() {
 export const Posts = () => {
 
     const queryClient = useQueryClient();
-    const { data } = useQuery(["posts"], fetchPosts);
+    const { data, isError, error, isLoading } = useQuery(
+        ["posts"],
+        () => fetchPosts(),
+        // This is time in milliseconds so 2k = 2 secs
+        { staleTime: 2000 }
+    );
 
-    if (!data) return <div></div>
+    if (isLoading) return <div>Loading...</div>
+    if (isError) return <p>{error.toString()}</p>;
 
     return (
         <>
