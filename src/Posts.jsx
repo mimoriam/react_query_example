@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const maxPostPage = 10;
 
@@ -15,12 +15,24 @@ export const Posts = () => {
 
     const queryClient = useQueryClient();
 
+    useEffect(() => {
+        if (currentPage < maxPostPage) {
+            const nextPage = currentPage + 1;
+            queryClient.prefetchQuery(["posts", nextPage], () =>
+                fetchPosts(nextPage)
+            );
+        }
+    }, [currentPage, queryClient]);
+
     // This is a query that supports pagination:
     const { data, isError, error, isLoading } = useQuery(
         ["posts", currentPage],
         () => fetchPosts(currentPage),
         // This is time in milliseconds so 2k = 2 secs
-        { staleTime: 2000 }
+        {
+            staleTime: 2000,
+            keepPreviousData: true,
+        }
     );
 
     if (isLoading) return <div>Loading...</div>
