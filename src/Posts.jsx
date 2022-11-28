@@ -1,6 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from "react";
 
+import { PostDetail } from "./PostDetail";
+
 const maxPostPage = 10;
 
 async function fetchPosts(pageNum) {
@@ -12,6 +14,7 @@ async function fetchPosts(pageNum) {
 
 export const Posts = () => {
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedPost, setSelectedPost] = useState(null);
 
     const queryClient = useQueryClient();
 
@@ -41,7 +44,8 @@ export const Posts = () => {
     return (
         <>
             <ul>{data.map(post => (
-                <li key={post.id}>
+                <li key={post.id}
+                    onClick={() => setSelectedPost(post)}>
                     {post.title}
                 </li>
             ))}</ul>
@@ -61,6 +65,11 @@ export const Posts = () => {
                     setCurrentPage((previousValue) => previousValue + 1)
                 }}>Next Page
             </button>
+
+            <br/>
+
+            {/* Only show PostDetail if we click on one of the posts:*/}
+            {selectedPost && <PostDetail post={selectedPost}/>}
         </>
     )
 };
