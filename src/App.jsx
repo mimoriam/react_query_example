@@ -29,7 +29,7 @@ function BlogPosts() {
             <ReactQueryDevtools/>
         </QueryClientProvider>
     )
-};
+}
 
 function InfiniteSwapi() {
     return (
@@ -41,6 +41,6 @@ function InfiniteSwapi() {
             <ReactQueryDevtools/>
         </QueryClientProvider>
     )
-};
+}
 
 export default App;
