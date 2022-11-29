@@ -7,7 +7,17 @@ import { Routes, Route } from "react-router-dom";
 import { InfinitePeople } from "./Swapi/infinitePeople";
 
 // Create a client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            refetchOnMount: false,
+            refetchOnReconnect: false,
+            staleTime: 600000, // 10 minutes
+            cacheTime: 900000, // default cacheTime is 5 minutes; doesn't make sense for staleTime to exceed cacheTime
+        }
+    }
+});
 
 const App = () => {
     return (

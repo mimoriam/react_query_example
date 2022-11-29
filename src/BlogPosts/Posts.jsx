@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { PostDetail } from "./PostDetail";
 
@@ -35,6 +35,10 @@ export const Posts = () => {
         {
             staleTime: 2000,
             keepPreviousData: true,
+            // Select specific data from the return data and cache it:
+            // select: useCallback(
+            //     data => data.map(post => post.title.toUpperCase()), []
+            // )
         }
     );
 
